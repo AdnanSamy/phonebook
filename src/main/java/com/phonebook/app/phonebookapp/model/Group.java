@@ -27,11 +27,6 @@ public class Group {
     @Column(name = "name")
     private String name;
 
-    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    // @JoinColumn(name = "phonebook_id", nullable = false)
-    // @OnDelete(action = OnDeleteAction.CASCADE)
-    // private PhoneBook phoneBook;
-
     @ManyToMany(mappedBy = "groups")
     private Set<PhoneBook> phoneBooks = new HashSet<>();
 

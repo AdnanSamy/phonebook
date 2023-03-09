@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,7 @@ public class PhoneBookService {
 
     private PhoneBookRepository phoneBookRepository;
     private GroupRepository groupRepository;
+    private static final Logger logger = LoggerFactory.getLogger(PhoneBookService.class);
 
     public PhoneBookService(PhoneBookRepository phoneBookRepository, GroupRepository groupRepository) {
 
@@ -40,6 +43,8 @@ public class PhoneBookService {
         phoneBookDTO.getGroups().forEach(groupDTO -> {
             Group group = groupRepository.findByName(groupDTO.getName())
                     .orElseThrow(() -> new ResourceNotFoundException("Error: Group is Not Found."));
+            
+            logger.info("GROUPDTO -> {}", groupDTO.getName());
 
             group.getPhoneBooks().add(phoneBook);
 

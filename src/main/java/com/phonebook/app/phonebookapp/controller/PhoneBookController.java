@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.phonebook.app.phonebookapp.dto.MessageResponse;
 import com.phonebook.app.phonebookapp.dto.PhoneBookDTO;
+import com.phonebook.app.phonebookapp.service.GroupService;
 import com.phonebook.app.phonebookapp.service.PhoneBookService;
 
 @CrossOrigin(origins = "*")
@@ -24,9 +25,12 @@ import com.phonebook.app.phonebookapp.service.PhoneBookService;
 public class PhoneBookController {
 
     private PhoneBookService phoneBookService;
+    private GroupService groupService;
 
-    public PhoneBookController(PhoneBookService phoneBookService) {
+
+    public PhoneBookController(PhoneBookService phoneBookService, GroupService groupService) {
         this.phoneBookService = phoneBookService;
+        this.groupService = groupService;
     }
 
     @GetMapping("/phonebook")
@@ -68,6 +72,14 @@ public class PhoneBookController {
     @DeleteMapping("/phonebook/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         phoneBookService.delete(id);
+
+        return ResponseEntity.ok(new MessageResponse("success"));
+    }
+
+    @PutMapping("/phonebook/{id}/{groupId}")
+    public ResponseEntity<?> removeGroup(@PathVariable Long id, @PathVariable Long groupId){
+
+        groupService.removeFromPhoneBook(id, groupId);
 
         return ResponseEntity.ok(new MessageResponse("success"));
     }
