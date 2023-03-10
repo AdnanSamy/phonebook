@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1380bb13-7141-42a4-9bba-f6c89d137bb2",
+		"_postman_id": "94a97b3d-b3ad-4785-b1cc-73d3faa8fb44",
 		"name": "Phonebook-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/phonebook?title=MR.",
+							"raw": "localhost:8080/api/phonebook?name=&company=&title=MR.",
 							"host": [
 								"localhost"
 							],
@@ -24,6 +24,14 @@
 								"phonebook"
 							],
 							"query": [
+								{
+									"key": "name",
+									"value": ""
+								},
+								{
+									"key": "company",
+									"value": ""
+								},
 								{
 									"key": "title",
 									"value": "MR."
