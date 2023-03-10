@@ -55,7 +55,25 @@ public class PhoneBookService {
         phoneBookRepository.save(phoneBook);
     }
 
-    public List<PhoneBookDTO> getAll(PhoneBookDTO phoneBookDTO) {
+    public List<PhoneBookDTO> getAll() {
+        List<PhoneBook> phoneBooks = phoneBookRepository.findAll();
+
+        List<PhoneBookDTO> phoneBookDTOs = phoneBooks.stream()
+                .map(phoneBook -> {
+
+                    List<GroupDTO> groupDTOs = phoneBook.getGroups().stream()
+                            .map(group -> new GroupDTO(group.getId(), group.getName()))
+                            .collect(Collectors.toList());
+
+                    return new PhoneBookDTO(phoneBook.getId(), phoneBook.getName(), phoneBook.getCompany(),
+                            phoneBook.getTitle(), groupDTOs);
+                })
+                .collect(Collectors.toList());
+
+        return phoneBookDTOs;
+    }    
+
+    public List<PhoneBookDTO> getAllByCondition(PhoneBookDTO phoneBookDTO) {
         List<PhoneBook> phoneBooks = phoneBookRepository.findByNameOrCompanyOrTitle(
                 phoneBookDTO.getName(), phoneBookDTO.getCompany(), phoneBookDTO.getTitle());
 

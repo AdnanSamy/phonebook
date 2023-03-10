@@ -27,23 +27,35 @@ public class PhoneBookController {
     private PhoneBookService phoneBookService;
     private GroupService groupService;
 
-
     public PhoneBookController(PhoneBookService phoneBookService, GroupService groupService) {
         this.phoneBookService = phoneBookService;
         this.groupService = groupService;
     }
 
     @GetMapping("/phonebook")
-    public ResponseEntity<?> getAll(@RequestParam(required = false) String name,
-            @RequestParam(required = false) String company,
-            @RequestParam(required = false) String title) {
+    public ResponseEntity<?> getAll(
+            @RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false, defaultValue = "") String company,
+            @RequestParam(required = false, defaultValue = "") String title) {
 
-        PhoneBookDTO phoneBookDTO = new PhoneBookDTO();
-        phoneBookDTO.setName(name);
-        phoneBookDTO.setCompany(company);
-        phoneBookDTO.setTitle(title);
+        List<PhoneBookDTO> phoneBookDTOs = null;
 
-        List<PhoneBookDTO> phoneBookDTOs = phoneBookService.getAll(phoneBookDTO);
+        if (!name.equals("") || !company.equals("") || !title.equals("")) {
+
+            PhoneBookDTO phoneBookDTO = new PhoneBookDTO();
+            phoneBookDTO.setName(name);
+            phoneBookDTO.setCompany(company);
+            phoneBookDTO.setTitle(title);
+
+            System.out.println("NAME -> " + name);
+            System.out.println("COMPANY -> " + company);
+            System.out.println("TITLE -> " + title);
+
+            phoneBookDTOs = phoneBookService.getAllByCondition(phoneBookDTO);
+        }else {
+            phoneBookDTOs = phoneBookService.getAll();
+
+        }
 
         return ResponseEntity.ok(phoneBookDTOs);
     }
@@ -77,7 +89,7 @@ public class PhoneBookController {
     }
 
     @PutMapping("/phonebook/{id}/{groupId}")
-    public ResponseEntity<?> removeGroup(@PathVariable Long id, @PathVariable Long groupId){
+    public ResponseEntity<?> removeGroup(@PathVariable Long id, @PathVariable Long groupId) {
 
         groupService.removeFromPhoneBook(id, groupId);
 
