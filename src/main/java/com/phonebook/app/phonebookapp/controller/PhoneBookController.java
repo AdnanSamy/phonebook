@@ -47,10 +47,6 @@ public class PhoneBookController {
             phoneBookDTO.setCompany(company);
             phoneBookDTO.setTitle(title);
 
-            System.out.println("NAME -> " + name);
-            System.out.println("COMPANY -> " + company);
-            System.out.println("TITLE -> " + title);
-
             phoneBookDTOs = phoneBookService.getAllByCondition(phoneBookDTO);
         }else {
             phoneBookDTOs = phoneBookService.getAll();
